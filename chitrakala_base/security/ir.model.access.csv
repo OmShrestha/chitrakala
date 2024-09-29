@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_art_type,art_type,model_art_type,base.group_user,1,1,1,1
+access_paper_size,paper_size,model_paper_size,base.group_user,1,1,1,1
+access_order_urgency,order_urgency,model_order_urgency,base.group_user,1,1,1,1
+access_delivery_type,delivery_type,model_delivery_type,base.group_user,1,1,1,1

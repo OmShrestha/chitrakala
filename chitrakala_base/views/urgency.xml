@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="order_urgency_list">
+              <field name="name">order_urgency_list</field>
+              <field name="model">order.urgency</field>
+              <field name="arch" type="xml">
+                <tree editable="top">
+                  <field name="name"/>
+                </tree>
+              </field>
+        </record>
+
+        <record model="ir.ui.view" id="order_urgency_form">
+              <field name="name">order_urgency_form</field>
+              <field name="model">order.urgency</field>
+              <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                               <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+          </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="order_urgency_action_window">
+              <field name="name">Urgency</field>
+              <field name="res_model">order.urgency</field>
+              <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Urgency"
+              id="order_urgency_menu"
+              parent="art_main_menu"
+              action="order_urgency_action_window"
+              sequence="3"
+        />
+
+    </data>
+</odoo>

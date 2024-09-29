@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="art_type_list">
+              <field name="name">art_type_list</field>
+              <field name="model">art.type</field>
+              <field name="arch" type="xml">
+                <tree>
+                  <field name="name" string="Title"/>
+                </tree>
+              </field>
+        </record>
+
+        <record model="ir.ui.view" id="art_type_form">
+              <field name="name">art_type_form</field>
+              <field name="model">art.type</field>
+              <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                               <field name="name" string="Title"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" widget="html"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+          </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="art_type_action_window">
+              <field name="name">Art Type</field>
+              <field name="res_model">art.type</field>
+              <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Art" 
+                  sequence="5" 
+                  id="art_main_menu" 
+        />
+
+        <menuitem name="Art Types"
+              id="art_type_menu"
+              parent="art_main_menu"
+              action="art_type_action_window"
+              sequence="1"
+        />
+
+    </data>
+</odoo>

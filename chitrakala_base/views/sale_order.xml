@@ -1,0 +1,81 @@
+<odoo>
+  <data>
+    
+    <record id="sale_order_tree_with_chitrakala_status" model="ir.ui.view">
+        <field name="name">sale_order_tree_with_chitrakala_status</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_tree"/>
+        <field name="arch" type="xml">
+            <field name='amount_total' position='after'>
+                <field name='chitrakala_status' string='Art Status' widget='badge'/>
+            </field>
+        </field>
+    </record>
+
+    <record id="sale_order_chitrakala__form" model="ir.ui.view">
+        <field name="name">sale_order_chitrakala__form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="chitrakala_status" widget="statusbar"/>
+            </xpath>
+            <field name="partner_id" position="after">
+                <field name="art_by" domain="[('is_artist','!=',False)]" readonly="chitrakala_status not in ('unassigned','assigned')"/>
+                <field name="no_of_people" readonly="chitrakala_status not in ('unassigned','assigned')"/>
+                <field name="art_type" readonly="chitrakala_status not in ('unassigned','assigned')"/>
+                <field name="art_size" readonly="chitrakala_status not in ('unassigned','assigned')"/>
+                <field name="is_framed" widget="boolean_toggle" readonly="chitrakala_status not in ('unassigned','assigned')"/>
+            </field>
+            <field name="payment_term_id" position="after">
+                <field name="commitment_date" string="Deadline"/>
+                <field name="artist_assigned_date" string="Assigned Date" invisible="chitrakala_status != 'assigned'" readonly="1"/>
+                <field name="art_completed_date" string="Completed Date" invisible="chitrakala_status != 'completed'" readonly="1"/>
+                <field name="art_dispatched_date" string="Dispatched Date" invisible="chitrakala_status != 'dispatched'" readonly="1"/>
+                <field name="art_delivered_date" string="Delivered Date" invisible="chitrakala_status != 'delivered'" readonly="1"/>
+                <field name="order_urgency" readonly="chitrakala_status not in ('unassigned','assigned', 'completed')"/>
+                <field name="delivery_type" readonly="chitrakala_status not in ('unassigned','assigned', 'completed')"/>
+            </field>
+            <button name="action_confirm" position="after">
+                <button name="action_complete_artwork" string="Completed" type="object" invisible="chitrakala_status != 'assigned'"/>
+                <button name="action_dispatch_artwork" string="Dispatched" type="object" invisible="chitrakala_status != 'completed'"/>
+                <button name="action_deliver_artwork" string="Delivered" type="object" invisible="chitrakala_status != 'dispatched'"/>
+            </button>
+            <field name="state" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="payment_term_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="validity_date" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="team_id" position="after">
+                <field name="artist_fee"/>
+                <field name="gross_profit"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="order_art_search" model="ir.ui.view">
+        <field name="name">order.art.search</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+                <separator/>
+                <filter string="Unassigned" name="unassigned_art" domain="[('chitrakala_status','=','unassigned')]" />
+                <filter string="Assigned" name="assigned_art" domain="[('chitrakala_status','=','assigned')]"/>
+                <filter string="Dispatched" name="dispatched_art" domain="[('chitrakala_status','=','dispatched')]"/>
+                <filter string="Delivered" name="delivered_art" domain="[('chitrakala_status','=','delivered')]" />
+                <filter string="Art State" name="art_state" context="{'group_by':'chitrakala_status'}"/>
+            </xpath>
+            <search position="inside">
+                <field name="art_by" string="Artist" filter_domain="[('art_by', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
+  </data>
+</odoo>
